@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700&display=swap");
+mat-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  background: linear-gradient(to right, #ad6e20, #ff6347);
+  color: white;
+  span {
+    font-family: "Montserrat", sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  .icons {
+    display: flex;
+    gap: 1.5rem;
+    cursor: pointer;
+  }
+}

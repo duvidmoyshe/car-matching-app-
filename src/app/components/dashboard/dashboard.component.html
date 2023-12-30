@@ -1,0 +1,73 @@
+<div class="container">
+  <div class="example-action-buttons">
+    <button mat-button (click)="toggleAccordion()" [matTooltip]="isAccordionOpened ? 'Collapse All' : 'Expand All'">
+      <mat-icon class="toggle">
+        <span class="material-symbols-outlined">
+          {{ isAccordionOpened ? 'expand_less' : 'expand_more' }}
+        </span>
+      </mat-icon>
+    </button>
+  </div>
+
+  <mat-accordion class="example-headers-align" multi>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>palette</mat-icon>
+        </mat-panel-title>
+        <mat-panel-description>
+          colors - bar
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div>
+        <div class="chart-container">
+          <canvas id="colorsChart"></canvas>
+        </div>
+      </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>pool</mat-icon>
+        </mat-panel-title>
+        <mat-panel-description>
+          hobbies - pie
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div>
+        <div class="chart-container">
+          <canvas id="hobbiesChart"></canvas>
+        </div>
+      </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>motorcycle</mat-icon>
+        </mat-panel-title>
+        <mat-panel-description>
+          motor - table
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="motorType">
+          <mat-header-cell *matHeaderCellDef> Motor Type </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.motorType }} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="male">
+          <mat-header-cell *matHeaderCellDef> Male Count </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.maleCount }} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="female">
+          <mat-header-cell *matHeaderCellDef> Female Count </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.femaleCount }} </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </mat-table>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

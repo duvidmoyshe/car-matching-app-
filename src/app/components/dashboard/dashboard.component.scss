@@ -1,0 +1,23 @@
+.container {
+  padding: 3rem;
+}
+
+.chart-container {
+  width: 100%;
+  box-sizing: border-box;
+  display: inline-block;
+}
+
+@media (max-width: 768px) {
+  .chart-container {
+    width: 100%;
+  }
+}
+
+mat-card-content {
+  text-align: center;
+}
+
+.toggle {
+  transform: scale(1.5);
+}

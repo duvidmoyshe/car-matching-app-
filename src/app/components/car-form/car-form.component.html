@@ -1,0 +1,117 @@
+<div class="content">
+  <h1>welcome to our AI Car-App, the perfect match 4 u!</h1>
+
+  <h3>please fill all fields for maximum results</h3>
+  <mat-card class="form-card">
+    <mat-card-content>
+      <form [formGroup]="carForm" (ngSubmit)="submitForm()">
+        <mat-form-field class="full-width">
+          <mat-label>Full Name</mat-label>
+          <input matInput placeholder="Full Name" formControlName="fullName">
+          <mat-error *ngIf="carForm?.get('fullName')?.hasError('required')">Full Name is required</mat-error>
+          <mat-error *ngIf="carForm.get('fullName')?.hasError('invalidName')">Invalid name (no numbers
+            allowed)</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Gender</mat-label>
+          <mat-select placeholder="Gender" formControlName="gender">
+            <mat-option value="male">Male</mat-option>
+            <mat-option value="female">Female</mat-option>
+          </mat-select>
+          <mat-error *ngIf="carForm?.get('gender')?.hasError('required')">Gender is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput placeholder="Email" formControlName="email">
+          <mat-error *ngIf="carForm?.get('email')?.hasError('required')">Email is required</mat-error>
+          <mat-error *ngIf="carForm?.get('email')?.hasError('email')">Invalid email</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>BirthDate</mat-label>
+          <input matInput [matDatepicker]="picker" placeholder="Birth Date" formControlName="birthDate">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="carForm?.get('birthDate')?.hasError('required')">Birth Date is required</mat-error>
+          <mat-error *ngIf="carForm?.get('birthDate')?.hasError('invalidDate')">Invalid Date</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Country</mat-label>
+          <mat-select placeholder="Country" formControlName="country" (selectionChange)="onCountryChange($event)">
+            <mat-option [value]="country.id" *ngFor="let country of countries$ | async">{{country.value}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="carForm?.get('country')?.hasError('required')">Country is required</mat-error>
+          <div></div>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>City</mat-label>
+          <mat-select placeholder="City" formControlName="city">
+            <mat-option [value]="city?.id" *ngFor="let city of cities$ | async">{{city?.value}}</mat-option>
+          </mat-select>
+          <div></div>
+          <mat-error *ngIf="carForm?.get('city')?.hasError('required')">City is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Address</mat-label>
+          <input matInput placeholder="Address" formControlName="address">
+          <mat-error *ngIf="carForm?.get('address')?.hasError('required')">Address is required</mat-error>
+          <mat-error *ngIf="carForm.get('address')?.hasError('invalidAddress')">Invalid address</mat-error>
+        </mat-form-field>
+
+
+
+        <mat-form-field class="full-width">
+          <mat-label>Hobbie</mat-label>
+          <mat-select placeholder="Hobbie" formControlName="hobbies" multiple>
+            <mat-option [value]="hobbie" *ngFor="let hobbie of hobbies">
+              {{hobbie}}
+            </mat-option>
+          </mat-select>
+          <div></div>
+          <mat-error *ngIf="carForm?.get('hobbies')?.hasError('required')">Hobbie is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <label for="colorPicker">Choose a Color:</label>
+          <mat-select id="colorPicker" formControlName="favoriteColor">
+            <mat-option *ngFor="let color of colorOptions" [value]="color.name"
+              [style.background]="color.value"></mat-option>
+          </mat-select>
+          <div [style.background]="carForm.controls['favoriteColor'].value || 'White'"
+            style="width: 50px; height: 50px; margin-top: 10px;"></div>
+        </mat-form-field>
+        <mat-error *ngIf="carForm?.get('color')?.hasError('required')">Color is required</mat-error>
+
+        <mat-form-field class="full-width">
+          <mat-label>NumOfSeats</mat-label>
+          <mat-select placeholder="numOfSeats" formControlName="numOfSeats">
+            <mat-option [value]='seat' *ngFor="let seat of seats">
+              {{seat}}
+            </mat-option>
+          </mat-select>
+          <div></div>
+          <mat-error *ngIf="carForm?.get('numOfSeats')?.hasError('required')">NumOfSeats is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>MotorType</mat-label>
+          <mat-select placeholder="motor-type" formControlName="motorType">
+            <mat-option [value]="motorType" *ngFor="let motorType of motorTypes">
+              {{motorType}}
+            </mat-option>
+          </mat-select>
+          <div></div>
+          <mat-error *ngIf="carForm?.get('motorType')?.hasError('required')">MotorType is required</mat-error>
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="submitForm()" [disabled]="!carForm.valid">Send</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
