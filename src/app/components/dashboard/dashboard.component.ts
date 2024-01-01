@@ -2,9 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
 import { MatTableDataSource } from '@angular/material/table';
 import { Chart, registerables } from 'chart.js';
+import { PieColors } from 'src/app/const/pie-colors.const';
 import { colors } from '../../const/colors.const';
 import { CarData } from '../../models/car-data.model';
-import { PieColors } from 'src/app/const/pie-colors.const';
+import { HeaderService } from 'src/app/services/header.service';
 
 Chart.register(...registerables);
 
@@ -24,7 +25,10 @@ export class DashboardComponent implements OnInit {
 
   isAccordionOpened: boolean = false;
 
+constructor(private headerService: HeaderService) {}
+
   ngOnInit(): void {
+    this.headerService.setHeaderTitle('Dashboard');
     this.loadLocalStorageData();
     this.renderBarChart();
     this.renderPieChart();
@@ -75,6 +79,7 @@ export class DashboardComponent implements OnInit {
 
   renderBarChart() {
     const colorsData = this.extractColorsData();
+    console.log(colorsData)
     const myChart = new Chart('colorsChart', {
       type: 'bar',
       data: {
@@ -92,6 +97,7 @@ export class DashboardComponent implements OnInit {
             display: false,
           },
         },
+        responsive: true
       },
     });
   }
@@ -157,6 +163,7 @@ export class DashboardComponent implements OnInit {
 
   private calculateAgeGroup(birthDate: Date): string {
     const age = this.calculateAge(birthDate);
+    console.log(age)
     if (age >= 18 && age <= 25) {
       return '18-25';
     } else if (age >= 26 && age <= 35) {

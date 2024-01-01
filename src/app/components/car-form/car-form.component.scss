@@ -3,6 +3,13 @@
   flex-direction: column;
   align-items: center;
   padding: 3.5rem;
+  h1 {
+    font-family: 'Sevillana', cursive;
+    font-weight: bold;
+  }
+  h3 {
+    font-family: 'Bebas Neue', sans-serif;
+  }
 }
 
 .form-card {
@@ -12,7 +19,7 @@
   top: 64px; /* Adjust the top value to match the toolbar height */
   background-color: #f1f1f1; /* Add a background color for visibility */
   padding: 16px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Add a box shadow for a card-like appearance */
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .full-width {

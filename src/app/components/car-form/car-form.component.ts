@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, NgForm, ValidationErrors, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable, map, of } from 'rxjs';
-import { MockLocationService } from '../../services/mock-location.service';
+import { Observable, map } from 'rxjs';
 import { colorOptions } from '../../const/color-options.const';
 import { hobbies } from '../../const/hobbies.const';
 import { motorTypes } from '../../const/motor-types.const';
 import { seats } from '../../const/seats.const';
+import { MockLocationService } from '../../services/mock-location.service';
+import { HeaderService } from 'src/app/services/header.service';
 
 @Component({
   selector: 'app-car-form',
@@ -14,6 +15,8 @@ import { seats } from '../../const/seats.const';
   styleUrls: ['./car-form.component.scss'],
 })
 export class CarFormComponent implements OnInit {
+  @ViewChild('formDirective')
+  private formDirective!: NgForm; // Add this line
   carForm!: FormGroup;
   hobbies = hobbies;
   motorTypes = motorTypes;
@@ -25,22 +28,24 @@ export class CarFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private mockLocationService: MockLocationService
+    private mockLocationService: MockLocationService,
+    private headerService: HeaderService
   ) {
     this.createForm();
   }
 
   ngOnInit() {
+    this.headerService.setHeaderTitle('Car-Form');
     this.loadCountries();
   }
 
   createForm(): void {
     this.carForm = this.fb.group({
-      fullName: ['', Validators.required, this.nameValidator],
+      fullName: ['', [Validators.required, this.nameValidator]],
       gender: ['', Validators.required],
       email: ['', [Validators.email, Validators.required]],
-      birthDate: ['', Validators.required, this.dateValidator],
-      address: ['', Validators.required, this.addressValidator],
+      birthDate: ['', [Validators.required, this.dateValidator]],
+      address: ['', [Validators.required, this.addressValidator]],
       city: ['', Validators.required],
       country: ['', Validators.required],
       hobbies: ['', Validators.required],
@@ -58,13 +63,14 @@ export class CarFormComponent implements OnInit {
       this.snackBar.open('Request sent. A mail with your match will be sent to you.', 'Close', {
         duration: 3000,
       });
-      this.carForm.reset();
-    } else {
-      this.markFormGroupTouched(this.carForm);
+      Object.keys(this.carForm.controls).forEach(key => {
+        this.carForm.controls[key].setValue('');
+        this.carForm.controls[key].markAsUntouched();
+      })
     }
   }
 
-  private markFormGroupTouched(formGroup: FormGroup): void {
+  markFormGroupTouched(formGroup: FormGroup): void {
     (Object as any).values(formGroup.controls).forEach((control: any) => {
       control.markAsTouched();
 
@@ -88,20 +94,20 @@ export class CarFormComponent implements OnInit {
   }
 
   nameValidator(control: AbstractControl): ValidationErrors | null {
-    console.log(control)
-    const nameRegex = /^[a-zA-Z\s]*$/; // Allows only letters and spaces
+    const nameRegex = /^[a-zA-Z\s]*$/;
     const isValid = nameRegex.test(control.value);
-    return isValid ? null : of({ invalidName: true });
+    return isValid ? null : { invalidName: true };
   }
 
   dateValidator(control: AbstractControl): ValidationErrors | null {
     const isValidDate = !isNaN(Date.parse(control.value));
-    return isValidDate ? null : of({ invalidDate: true });
+    return isValidDate ? null : { invalidDate: true };
   }
 
   addressValidator(control: AbstractControl): ValidationErrors | null {
-    const isValidAddress = control.value.trim() !== ''; // Address should not be empty
-    return isValidAddress ? null : of({ invalidAddress: true });
+   const addressRegex = /^(?=.*?\d)(?=.*?[a-zA-Z])[a-zA-Z\d]+$/
+    const isValidAddress = addressRegex.test(control.value);
+    return isValidAddress ? null : { invalidAddress: true };
   }
 
 }

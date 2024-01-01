@@ -82,10 +82,10 @@
             <mat-option *ngFor="let color of colorOptions" [value]="color.name"
               [style.background]="color.value"></mat-option>
           </mat-select>
+          <mat-error *ngIf="carForm?.get('favoriteColor')?.hasError('required')">Color is required</mat-error>
           <div [style.background]="carForm.controls['favoriteColor'].value || 'White'"
             style="width: 50px; height: 50px; margin-top: 10px;"></div>
         </mat-form-field>
-        <mat-error *ngIf="carForm?.get('color')?.hasError('required')">Color is required</mat-error>
 
         <mat-form-field class="full-width">
           <mat-label>NumOfSeats</mat-label>
